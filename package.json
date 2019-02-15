@@ -1,0 +1,22 @@
+{
+  "name": "0",
+  "version": "1.0.0",
+  "description": "",
+  "main": "fd_server0.js",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "dateformat": "^3.0.3",
+    "express": "^4.16.4",
+    "pg": "^7.7.1"
+  },
+  "engines": {
+    "node": "8.12.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "heroku-postbuild": "cd client && npm install && npm run build"
+  }
+}
