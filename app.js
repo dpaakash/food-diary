@@ -23,7 +23,7 @@ const client = new Client({
     connectionString: process.env.DATABASE_URL,
     // ssl : true
   });
-client.connect().catch(() => { console.log("Cannot connect to the DB. Exiting..."); process.exit(1); });
+client.connect().catch(() => { console.log("Cannot connect to the DB. Exiting..."); });
 
 // add all food items as JSON in the response
 function defaultHandler(req, resp) {
