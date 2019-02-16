@@ -4,11 +4,13 @@
 ````
 npm install
 npm start
+
 cd client
+
 npm install
 npm start
 ````
-Open http://localhost:3000 to view it in the browser.
+Open http://localhost:3000 to view it in the browser(The DB needs to be up and running).
 
 #### Relevant files
 app.js - NodeJS server. Handles save, view requests.
