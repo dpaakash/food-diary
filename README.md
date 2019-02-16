@@ -15,9 +15,9 @@ app.js - NodeJS server. Handles save, view requests.
 
 in *client/*
 
-App.js - React's default entry point for the application
-header.js - Header component. Has date and navigation buttons.
-FDEditor.js - Component which lets the user add the entry on a given date.
+App.js - React's default entry point for the application.<br />
+header.js - Header component. Has date and navigation buttons.<br />
+FDEditor.js - Component which lets the user add the entry on a given date.<br />
 FDViewer.js - Component which lets the user view the saved entry on a given date.
 
 The *DB, PostgreSQL,* contains 3 tables
