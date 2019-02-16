@@ -88,7 +88,7 @@ export class FDEditor extends React.Component {
             }
             this.setState({allFoodItemsName : allFoodItemsName,
                            selectedFoodItemName: allFoodItemsName[0]});
-        });
+        }).catch((err)=>console.log("Unable to get fetch list of available food items from DB"+err));
     }
 
     render() {

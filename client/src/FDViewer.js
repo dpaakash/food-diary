@@ -41,7 +41,7 @@ export class FDViewer extends React.Component{
             //             return <li key={i}>{e}</li>;
             //         }));
             });
-        }).catch((e) => console.log("errorrr" + e));
+        }).catch((e) => console.log(e));
     }
 
     // get the saved data from db based on the selected date
@@ -54,7 +54,7 @@ export class FDViewer extends React.Component{
             return JSON.stringify(myJson);
         }
         catch(e){
-            console.log(e);
+            console.log("Unable to fetch saved food items from DB"+e);
         }
     }
 
