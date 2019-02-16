@@ -22,6 +22,6 @@ FDViewer.js - Component which lets the user view the saved entry on a given date
 
 The *DB, PostgreSQL,* contains 3 tables
 
-date_entry has date_id, date and comment
-food_items has item_id and item_name
-food_entries has entry_id, date_id, item_id, quantity, time_period and comment
+date_entry has date_id, date and comment<br />
+food_items has item_id and item_name<br />
+food_entries has entry_id, date_id, item_id, quantity, time_period and comment<br />
