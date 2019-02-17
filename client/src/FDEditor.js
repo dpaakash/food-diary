@@ -46,7 +46,7 @@ export class FDEditor extends React.Component {
         };
         (async () => {
             // const rawResponse = 
-            await fetch(`http://localhost:1337/save`, {
+            await fetch(`/save`, {
               method: 'POST',
               headers: {
                 'Accept': 'application/json',
