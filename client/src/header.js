@@ -12,9 +12,10 @@ export class Header extends React.Component {
         );
     }
 
-    // go to the previous or next day based on the button clicke d
+    // go to the previous or next day based on the button clicked
     handleClick = (event) => {
         let currDate = this.props.date;
+        // prevent mutating the previous state to get the correct value in 'prevProps' of 'componentDidUpdate'
         let copiedCurrDate = new Date(currDate.getTime());
         let name = event.target.name;
         if(name === "next"){
