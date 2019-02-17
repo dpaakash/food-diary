@@ -1,5 +1,5 @@
 /**
- * fd_server-0.js
+ * app.js
  *
  * HTTP server
  */
@@ -7,14 +7,15 @@
 // use 'express' framework
 const express = require('express');
 const app = express(); 
- // use PostgreSQL client 'pg' to connect to db
+ // use PostgreSQL client 'pg' to connect to the DB
 const { Client } = require('pg');
-// use middleware 'bodyParser' to parse the HTTP POST data
+// use middleware 'bodyParser' to parse the received HTTP POST data
 const bodyParser = require('body-parser');
 const path = require('path');
 
-// Serve static files from the React frontend app
+// serve static files from the React frontend app
 app.use(express.static(path.join(__dirname, 'client/build')))
+
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 
@@ -23,15 +24,16 @@ const client = new Client({
     connectionString: process.env.DATABASE_URL,
     ssl : true
   });
-client.connect().catch(() => { console.log("Cannot connect to the DB. Exiting..."); });
+// TODO check if an error here should process.exit(1)
+client.connect().catch((e) => { console.error("Cannot connect to the DB. Exiting..."+e); });
 
-// add all food items as JSON in the response
+// query the DB and send the available food items details in response
 function defaultHandler(req, resp) {
     client.query('SELECT * FROM public.food_items;', (err, res) => {
         if (err)
           throw err;
 
-        let respArr = [];
+        const respArr = [];
         for (let row of res.rows)
           respArr.push(row);
         // client.end();
@@ -41,48 +43,42 @@ function defaultHandler(req, resp) {
     resp.writeHead(200, {'Content-Type': 'text/plain'});    
 }
 
+// handle save request
 async function saveHandler(req,resp){
-  console.log(req.body);
     try{
-      let res = await client.query('INSERT INTO public.date_entry(date) VALUES($1) RETURNING date_id', [req.body.date])
-      let date_id = res.rows[0].date_id;
+      const res = await client.query('INSERT INTO public.date_entry(date) VALUES($1) RETURNING date_id', [req.body.date])
+      const date_id = res.rows[0].date_id;
       const foodItemsIDs = req.body.foodItemsID;
+      // TODO make it efficient
       for(let i=0; i<foodItemsIDs.length; i++){
         await client.query('INSERT INTO public.food_entries(date_id,item_id) VALUES($1,$2)',[date_id,foodItemsIDs[i]]);
       }
     } catch(e){
-      console.error(e);
+      console.error("Error while saving data"+e);
     }
 }
 
-
-/* SQL query
-SELECT public.food_items.item_name from public.food_entries
-JOIN public.food_items ON public.food_entries.item_id = public.food_items.item_id
-JOIN public.date_entry ON public.food_entries.date_id = public.date_entry.date_id
-where date = to_date('Mon Feb 10 2019', 'Dy Mon dd yyyy') 
-*/
-// Queries DB for food items saved on a given date
+// query DB and send names for food items saved on a given date
+// date example 'Mon Feb 10 2019'
 async function viewHandler(req,resp){
   try{
-    let response = await client.query(`SELECT public.food_items.item_name from public.food_entries\
+    const response = await client.query(`SELECT public.food_items.item_name from public.food_entries\
     JOIN public.food_items ON public.food_entries.item_id = public.food_items.item_id\ 
     JOIN public.date_entry ON public.food_entries.date_id = public.date_entry.date_id\
     WHERE date=to_date('${req.query.date}','Dy Mon dd yyyy')`);
-    console.log(response);
-    let item_names=[];
+    const item_names=[];
     for(let row of response.rows){
       item_names.push(row.item_name)
     }
     resp.write(JSON.stringify(item_names));
     resp.end();
   }catch(e){
-    console.log(e);
+    console.error("Error while fetching saved item names from DB "+e);
   }
       
 }
 
-// listen on port 1337
+// listen on port 1337 by default
 let port = process.env.PORT;
 if (port == null || port == "") {
   port = 1337;
@@ -95,10 +91,6 @@ app.get('/index',defaultHandler);
 app.post('/save', saveHandler);
 app.get('/view',viewHandler);
 
-// test code
-app.get('/save', function(req,res){
-  res.send(200, 'hello, world again');
-});
 
 
 
