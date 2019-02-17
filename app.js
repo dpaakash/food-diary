@@ -21,7 +21,7 @@ app.use(bodyParser.json());
 // initialize PostgreSQL client and connect to the db
 const client = new Client({
     connectionString: process.env.DATABASE_URL,
-    // ssl : true
+    ssl : true
   });
 client.connect().catch(() => { console.log("Cannot connect to the DB. Exiting..."); });
 
