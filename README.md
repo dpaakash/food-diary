@@ -15,7 +15,7 @@ Open http://localhost:3000 to view it in the browser(The DB needs to be up and r
 #### Relevant files
 app.js - NodeJS server. Handles save, view requests.
 
-in *client/*
+in *client/src*
 
 App.js - React's default entry point for the application.<br />
 header.js - Header component. Has date and navigation buttons.<br />
