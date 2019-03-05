@@ -78,6 +78,16 @@ async function viewHandler(req,resp){
       
 }
 
+async function addHandler(req,resp){
+  try{
+    await client.query('INSERT INTO public.food_items (item_name) VALUES ($1)',[req.body.new_item_name]);
+  } catch(e) {
+    console.error(`Error occurred while adding the new item ${req.body.new_item_name} 
+                  ${e}`);
+  }
+  
+}
+
 // listen on port 1337 by default
 let port = process.env.PORT;
 if (port == null || port == "") {
@@ -90,6 +100,7 @@ app.listen(port);
 app.get('/index',defaultHandler);
 app.post('/save', saveHandler);
 app.get('/view',viewHandler);
+app.post('/add',addHandler);
 
 
 
