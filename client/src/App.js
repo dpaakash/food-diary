@@ -2,6 +2,7 @@ import React from 'react';
 import {Header} from './header';
 import {FDEditor} from './FDEditor';
 import {FDViewer} from './FDViewer';
+import {Footer} from './footer';
 import './App.css';
 
 class App extends React.Component {
@@ -19,6 +20,7 @@ class App extends React.Component {
           <Header date={this.state.date} setDate={this.setDate} />
           <FDViewer date={this.state.date} />
           <FDEditor date={this.state.date} />
+          <Footer />
       </div>
     );
   }
