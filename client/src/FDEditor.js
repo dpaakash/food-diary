@@ -10,8 +10,11 @@ export class FDEditor extends React.Component {
             // all food items added in the current edit 
             addedFoodItemsName: [],
             // name of all the food items stored in db
-            allFoodItemsName: []
+            allFoodItemsName: [],
+            // any comment that needs to be added for the given day
+            dayComment: ""
         }
+        this.handleDayCommentOnChange = this.handleDayCommentOnChange.bind(this);
     }
 
     // add to 'addedFoodItemsName' in the state on the click of 'Add' button
@@ -39,7 +42,8 @@ export class FDEditor extends React.Component {
         let requestObj = {
             foodItemsName: this.state.addedFoodItemsName,
             foodItemsID: addedItemsID,
-            date: this.props.date
+            date: this.props.date,
+            dayComment: this.state.dayComment
         };
         (async () => {
             await fetch(`/save`, {
@@ -58,6 +62,12 @@ export class FDEditor extends React.Component {
                 console.log(content);
             });
 
+    }
+
+    handleDayCommentOnChange(e){
+        this.setState({
+            dayComment: e.target.value  
+        })
     }
 
     componentDidMount() {
@@ -106,7 +116,7 @@ export class FDEditor extends React.Component {
                 </select>
                 <button onClick={this.addItem}>Add</button>
                 <ul>{bulletedItems}</ul>
-                <input type="textArea" placeholder="Comments"></input>
+                <input type="textArea" placeholder="Comments" value={this.state.dayComment} onChange={this.handleDayCommentOnChange}></input>
                 <button onClick={this.handleSave}>Save</button>
             </div>
         );

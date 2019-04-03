@@ -46,7 +46,7 @@ function defaultHandler(req, resp) {
 // handle save request
 async function saveHandler(req,resp){
     try{
-      const res = await client.query('INSERT INTO public.date_entry(date) VALUES($1) RETURNING date_id', [req.body.date])
+      const res = await client.query('INSERT INTO public.date_entry(date,comment) VALUES($1,$2) RETURNING date_id', [req.body.date,req.body.dayComment])
       const date_id = res.rows[0].date_id;
       const foodItemsIDs = req.body.foodItemsID;
       // TODO make it efficient
