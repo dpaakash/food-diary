@@ -1,11 +1,12 @@
 import React from 'react';
+import './Header.css';
 
 export class Header extends React.Component {
     // renders the date and two buttons, 'Prev' and 'Next'
     render() {
         return (
             <div>
-                <h3 align="center">{this.props.date.toDateString()}</h3>
+                <h3>{this.props.date.toDateString()}</h3>
                 <button onClick={this.handleClick} name="prev">Prev</button>
                 <button onClick={this.handleClick} name="next" style={{float:'right'}}>Next</button>
             </div>
