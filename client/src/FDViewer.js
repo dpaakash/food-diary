@@ -46,10 +46,10 @@ export class FDViewer extends React.Component {
     //TODO return immediately if the date is in future
     async getSavedItemsOnDate() {
         try {
+            // Response {type: "basic", url: "http://localhost:3000/view?date=Tue%20Mar%2019%202019", redirected: false, status: 200, ok: true, …}
             const response = await fetch(`/view?date=${this.props.date.toDateString()}`);
-            console.log(response);
+            //{item_names: Array(0), dayComment: ""}
             const myJson = await response.json();
-            console.log(myJson);
             return JSON.stringify(myJson);
         }
         catch (e) {
