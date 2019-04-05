@@ -9,7 +9,8 @@ export class FDViewer extends React.Component {
         super(props);
         this.savedFoodItemNames = [];
         this.state = {
-            bulletedItems: []
+            bulletedItems: [],
+            dayComment: ""
         };
     }
 
@@ -29,13 +30,14 @@ export class FDViewer extends React.Component {
     // fetches records on the passed date and populates the state
     setStateBulletedItems() {
         this.getSavedItemsOnDate().then((response) => {
-            let itemNames = JSON.parse(response);
-            for (let itemName of itemNames)
+            let responseObj = JSON.parse(response);
+            for (let itemName of responseObj.item_names)
                 this.savedFoodItemNames.push(itemName);
             this.setState({
                 bulletedItems: this.savedFoodItemNames.map((e, i) => {
                     return <li key={i}>{e}</li>;
-                })
+                }),
+                dayComment: responseObj.dayComment
             });
         }).catch((e) => console.log(e));
     }
@@ -45,7 +47,9 @@ export class FDViewer extends React.Component {
     async getSavedItemsOnDate() {
         try {
             const response = await fetch(`/view?date=${this.props.date.toDateString()}`);
+            console.log(response);
             const myJson = await response.json();
+            console.log(myJson);
             return JSON.stringify(myJson);
         }
         catch (e) {
@@ -54,14 +58,12 @@ export class FDViewer extends React.Component {
     }
 
     render() {
-        let val = null;
-        if (this.state.bulletedItems.length)
-            val = <ul>{this.state.bulletedItems}</ul>
-        else
-            val = <h5>No entries saved on {this.props.date.toDateString()}</h5>
-
         return (
-            <div>{val}</div>
+            <div>
+                {this.state.bulletedItems.length ? <ul>{this.state.bulletedItems}</ul> : "No entries saved"}
+                <br />
+                {this.state.dayComment==="" ? "No comment added" :this.state.dayComment}
+            </div>
         )
     }
 }

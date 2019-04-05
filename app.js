@@ -62,15 +62,18 @@ async function saveHandler(req,resp){
 // date example 'Mon Feb 10 2019'
 async function viewHandler(req,resp){
   try{
-    const response = await client.query(`SELECT public.food_items.item_name from public.food_entries\
+    //TODO check for a better way to fetch 'comment'
+    const response = await client.query(`SELECT public.food_items.item_name, public.date_entry.comment from public.food_entries\
     JOIN public.food_items ON public.food_entries.item_id = public.food_items.item_id\ 
     JOIN public.date_entry ON public.food_entries.date_id = public.date_entry.date_id\
     WHERE date=to_date('${req.query.date}','Dy Mon dd yyyy')`);
     const item_names=[];
+    let dayComment = "";
     for(let row of response.rows){
-      item_names.push(row.item_name)
+      item_names.push(row.item_name);
+      dayComment = row.comment;
     }
-    resp.write(JSON.stringify(item_names));
+    resp.write(JSON.stringify({item_names, dayComment}));
     resp.end();
   }catch(e){
     console.error("Error while fetching saved item names from DB "+e);
