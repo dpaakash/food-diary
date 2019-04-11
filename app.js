@@ -22,7 +22,7 @@ app.use(bodyParser.json());
 // initialize PostgreSQL client and connect to the db
 const client = new Client({
     connectionString: process.env.DATABASE_URL,
-    ssl : true
+    // ssl : true
   });
 // TODO check if an error here should process.exit(1)
 client.connect().catch((e) => { console.error("Cannot connect to the DB. Exiting..."+e); });
@@ -53,8 +53,9 @@ async function saveHandler(req,resp){
       for(let i=0; i<foodItemsIDs.length; i++){
         await client.query('INSERT INTO public.food_entries(date_id,item_id) VALUES($1,$2)',[date_id,foodItemsIDs[i]]);
       }
+      resp.end();
     } catch(e){
-      console.error("Error while saving data"+e);
+      console.error("Error while saving data: "+e);
     }
 }
 
