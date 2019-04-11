@@ -86,10 +86,9 @@ async function addHandler(req,resp){
   try{
     await client.query('INSERT INTO public.food_items (item_name) VALUES ($1)',[req.body.new_item_name]);
   } catch(e) {
-    console.error(`Error occurred while adding the new item ${req.body.new_item_name} 
-                  ${e}`);
+    console.error(`Error occurred while adding the new item ${req.body.new_item_name} ${e}`);
   }
-  
+  resp.end();
 }
 
 // listen on port 1337 by default
