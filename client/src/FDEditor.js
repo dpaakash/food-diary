@@ -57,6 +57,7 @@ export class FDEditor extends React.Component {
         }).then(() => {
             this.setState({
                 addedFoodItemsName: [],
+                dayComment: "",
                 saved: true
             });
         }).catch(error => console.log("Error occured during save: " + error));
