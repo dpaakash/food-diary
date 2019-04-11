@@ -10,7 +10,7 @@ export class FDViewer extends React.Component {
         this.savedFoodItemNames = [];
         this.state = {
             bulletedItems: [],
-            dayComment: ""
+            dayComment: "",
         };
     }
 
@@ -21,7 +21,7 @@ export class FDViewer extends React.Component {
 
     // handle date change via 'Next' and 'Prev' buttons
     componentDidUpdate(prevProps) {
-        if (prevProps.date !== this.props.date) {
+        if (prevProps.date !== this.props.date || (this.props.saved === true && prevProps.saved !== true)){
             this.savedFoodItemNames = [];
             this.setStateBulletedItems();
         }
