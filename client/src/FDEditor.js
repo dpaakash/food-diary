@@ -18,16 +18,21 @@ export class FDEditor extends React.Component {
             saved : false
         }
         this.handleDayCommentOnChange = this.handleDayCommentOnChange.bind(this);
-    }
-
-    // add to 'addedFoodItemsName' in the state on the click of 'Add' button
-    addItem = () => {
-        if (this.state.selectedFoodItemName)
-            this.setState(state => ({ addedFoodItemsName: [...state.addedFoodItemsName, state.selectedFoodItemName] }));
+        this.handleOnChange = this.handleOnChange.bind(this);
     }
 
     // update the 'selectedFoodItemName' in the state on dropdown selection
-    handleOnChange = (e) => this.setState({ selectedFoodItemName: e.target.value });
+    handleOnChange(e){
+        // because setState is "async", by the time the function(not applicable when an object is passed) 
+        // passed to setState is executed (and the event is accessed), the event is no longer around
+         let selectedValue = e.target.value;
+         this.setState(state=>{
+            return {
+                    selectedFoodItemName: selectedValue,
+                    addedFoodItemsName: [...state.addedFoodItemsName, selectedValue]
+                }    
+         })
+     }
 
     // remove from 'addedFoodItemsName' in the 'state' on the click of 'X'(delete) button
     handleDelete = (i) => {
@@ -123,7 +128,6 @@ export class FDEditor extends React.Component {
                 <select id="itemsList" value={this.selectedFoodItemName} onChange={this.handleOnChange}>
                     {foodItemOptions}
                 </select>
-                <button onClick={this.addItem}>Add</button>
                 <ul>{bulletedItems}</ul>
                 <input type="textArea" placeholder="Comments" value={this.state.dayComment} onChange={this.handleDayCommentOnChange}></input>
                 <button onClick={this.handleSave}>Save</button>
