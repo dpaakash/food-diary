@@ -30,3 +30,49 @@
     transform: rotate(360deg);
   }
 }
+
+h3{
+  text-align: center
+}
+
+nav{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+nav>button{
+  
+}
+
+#viewer{
+  display: block
+}
+
+.remove{
+  color: red;
+  position: absolute;
+  right: 0px;
+}
+
+.save{
+  color: green
+}
+
+button:active{
+  color: black
+}
+
+span{
+  font-style: italic;
+}
+
+span::before{
+  content: "*"
+}
+
+li+button{
+  color:yellow
+}
+
+

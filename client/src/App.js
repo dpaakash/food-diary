@@ -17,7 +17,9 @@ class App extends React.Component {
     return (
       <div>
           <Header date={this.state.date} setDate={this.setDate} />
+          <hr />
           <FDEditor date={this.state.date} />
+          <hr />
           <ItemAdder />
       </div>
     );

@@ -33,7 +33,7 @@ export class ItemAdder extends React.Component{
         return(
             <div>
                 <input id="item_name" placeholder="New food item name" value={this.state.newItemName} onChange={this.handleOnChange}></input>
-                <button id="adder" onClick={this.handleAdder}>Add a New Food Item</button>
+                <button id="adder" className="save" onClick={this.handleAdder}>Add a New Food Item</button>
             </div>        
         )
     }

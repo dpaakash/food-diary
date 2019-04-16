@@ -118,19 +118,20 @@ export class FDEditor extends React.Component {
         let foodItemOptions = this.state.allFoodItemsName.map((e, i) => { return <option key={i} value={e}>{e}</option> });
         let bulletedItems = this.state.addedFoodItemsName.map((e, i) => {
             return (
-                <li key={i}>{e}<button onClick={() => this.handleDelete(i)}>X</button></li>
+                <li key={i}>{e}<button className='remove' onClick={() => this.handleDelete(i)}>Remove</button></li>
             );
         });
 
         return (
             <div>
                 <FDViewer date = {this.props.date} saved={this.state.saved}/>
+                <hr />
                 <select id="itemsList" value={this.selectedFoodItemName} onChange={this.handleOnChange}>
                     {foodItemOptions}
                 </select>
                 <ul>{bulletedItems}</ul>
                 <input type="textArea" placeholder="Comments" value={this.state.dayComment} onChange={this.handleDayCommentOnChange}></input>
-                <button onClick={this.handleSave}>Save</button>
+                <button className="save" onClick={this.handleSave}>Save</button>
             </div>
         );
     }
