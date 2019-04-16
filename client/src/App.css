@@ -41,14 +41,6 @@ nav{
   margin-top: 10px;
 }
 
-nav>button{
-  
-}
-
-#viewer{
-  display: block
-}
-
 .remove{
   color: red;
   position: absolute;
@@ -71,8 +63,8 @@ span::before{
   content: "*"
 }
 
-li+button{
+/* li+button{
   color:yellow
-}
+} */
 
 
