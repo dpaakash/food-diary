@@ -60,7 +60,7 @@ export class FDViewer extends React.Component {
     render() {
         return (
             <div id="viewer">
-                {this.state.bulletedItems.length ? <ul style={{listStyleType: 'devanagari'}}>{this.state.bulletedItems}</ul> : <span>No entries saved</span>}
+                {this.state.bulletedItems.length ? <ul>{this.state.bulletedItems}</ul> : <span>No entries saved</span>}
                 <br />
                 {this.state.dayComment==="" ? <span>No comment added</span> :this.state.dayComment}
             </div>

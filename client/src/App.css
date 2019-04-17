@@ -63,6 +63,10 @@ span::before{
   content: "*"
 }
 
+ul{
+  list-style-type: disc
+}
+
 /* li+button{
   color:yellow
 } */
