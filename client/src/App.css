@@ -47,6 +47,12 @@ nav{
   right: 0px;
 }
 
+.move{
+  color:blue;
+  position: relative;
+  right: 300px;
+}
+
 .save{
   color: green
 }
@@ -67,8 +73,32 @@ ul{
   list-style-type: disc
 }
 
-/* li+button{
-  color:yellow
+/* .header ul li {
+  list-style-type: none;
+  display: inline-block;
+  justify-content: space-between;
 } */
+nav ul {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+nav button {
+  background: transparent;
+  border: none;
+  /* font-weight: bold;
+  text-decoration: underline; */
+}
+
+nav li {
+  display: inline-block;
+}
+
+.flex-center{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 
 

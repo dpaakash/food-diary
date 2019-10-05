@@ -8,14 +8,21 @@ export class Header extends React.Component {
     // renders the date and two buttons, 'Prev' and 'Next'
     render() {
         return (
-            <div>
-                <nav>
-                    <button onClick={this.handleClick} name="prev">Previous</button>
+            <nav className='flex-center'>
+                <ul>
+                    <li>
+                        <button onClick={this.handleClick} name="prev">⏮</button>
+                    </li>
+                    <li>
+                        <h3>{this.props.date.toDateString()}</h3>
+                    </li>
                     {/* <button onClick={this.openDatePicker}>Calendar</button> */}
-                    <button onClick={this.handleClick} name="next">Next</button>
-                </nav>
-                <h3>{this.props.date.toDateString()}</h3>
-            </div>
+                    <li>
+                        <button onClick={this.handleClick} name="next">⏭</button>
+                    </li>
+                </ul>
+            </nav>
+            
         );
     }
 
