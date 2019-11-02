@@ -10,7 +10,7 @@ export class FDViewer extends React.Component {
         this.savedFoodItemNames = [];
         this.state = {
             bulletedItems: [],
-            dayComment: ""
+            dayComment: "",
         };
     }
 
@@ -21,7 +21,7 @@ export class FDViewer extends React.Component {
 
     // handle date change via 'Next' and 'Prev' buttons
     componentDidUpdate(prevProps) {
-        if (prevProps.date !== this.props.date) {
+        if (prevProps.date !== this.props.date || (this.props.saved === true && prevProps.saved !== true)){
             this.savedFoodItemNames = [];
             this.setStateBulletedItems();
         }
@@ -46,10 +46,10 @@ export class FDViewer extends React.Component {
     //TODO return immediately if the date is in future
     async getSavedItemsOnDate() {
         try {
+            // Response {type: "basic", url: "http://localhost:3000/view?date=Tue%20Mar%2019%202019", redirected: false, status: 200, ok: true, …}
             const response = await fetch(`/view?date=${this.props.date.toDateString()}`);
-            console.log(response);
+            //{item_names: Array(0), dayComment: ""}
             const myJson = await response.json();
-            console.log(myJson);
             return JSON.stringify(myJson);
         }
         catch (e) {
@@ -59,10 +59,10 @@ export class FDViewer extends React.Component {
 
     render() {
         return (
-            <div>
-                {this.state.bulletedItems.length ? <ul>{this.state.bulletedItems}</ul> : "No entries saved"}
+            <div id="viewer">
+                {this.state.bulletedItems.length ? <ul>{this.state.bulletedItems}</ul> : <span>No entries saved</span>}
                 <br />
-                {this.state.dayComment==="" ? "No comment added" :this.state.dayComment}
+                {this.state.dayComment==="" ? <span>No comment added</span> :this.state.dayComment}
             </div>
         )
     }

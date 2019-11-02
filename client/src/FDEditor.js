@@ -1,4 +1,5 @@
 import React from 'react';
+import { FDViewer } from './FDViewer';
 
 export class FDEditor extends React.Component {
     constructor(props) {
@@ -12,19 +13,26 @@ export class FDEditor extends React.Component {
             // name of all the food items stored in db
             allFoodItemsName: [],
             // any comment that needs to be added for the given day
-            dayComment: ""
+            dayComment: "",
+            // boolean value set to true when save button is clicked
+            saved : false
         }
         this.handleDayCommentOnChange = this.handleDayCommentOnChange.bind(this);
-    }
-
-    // add to 'addedFoodItemsName' in the state on the click of 'Add' button
-    addItem = () => {
-        if (this.state.selectedFoodItemName)
-            this.setState(state => ({ addedFoodItemsName: [...state.addedFoodItemsName, state.selectedFoodItemName] }));
+        this.handleOnChange = this.handleOnChange.bind(this);
     }
 
     // update the 'selectedFoodItemName' in the state on dropdown selection
-    handleOnChange = (e) => this.setState({ selectedFoodItemName: e.target.value });
+    handleOnChange(e){
+        // because setState is "async", by the time the function(not applicable when an object is passed) 
+        // passed to setState is executed (and the event is accessed), the event is no longer around
+         let selectedValue = e.target.value;
+         this.setState(state=>{
+            return {
+                    selectedFoodItemName: selectedValue,
+                    addedFoodItemsName: [...state.addedFoodItemsName, selectedValue]
+                }    
+         })
+     }
 
     // remove from 'addedFoodItemsName' in the 'state' on the click of 'X'(delete) button
     handleDelete = (i) => {
@@ -45,29 +53,34 @@ export class FDEditor extends React.Component {
             date: this.props.date,
             dayComment: this.state.dayComment
         };
-        (async () => {
-            await fetch(`/save`, {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(requestObj)
+        fetch(`/save`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestObj)
+        }).then(() => {
+            this.setState({
+                addedFoodItemsName: [],
+                dayComment: "",
+                saved: true
             });
-        })()
-            //TODO Fix the code below to empty the addedFoodItemsName state after save request
-            .then((rawResponse) => {
-                this.setState({ addedFoodItemsName: [] });
-                const content = rawResponse.json();
-                console.log(content);
-            });
-
+        }).catch(error => console.log("Error occured during save: " + error));
     }
 
     handleDayCommentOnChange(e){
         this.setState({
             dayComment: e.target.value  
         })
+    }
+
+    componentDidUpdate(prevProps){
+        if(prevProps.date !== this.props.date)
+            // set 'state' to 'false' so that FDViewer's CDU method executes when
+            // entries are added for two days with out reloading in between
+            this.setState({
+                saved: false
+            })
     }
 
     componentDidMount() {
@@ -105,19 +118,20 @@ export class FDEditor extends React.Component {
         let foodItemOptions = this.state.allFoodItemsName.map((e, i) => { return <option key={i} value={e}>{e}</option> });
         let bulletedItems = this.state.addedFoodItemsName.map((e, i) => {
             return (
-                <li key={i}>{e}<button onClick={() => this.handleDelete(i)}>X</button></li>
+                <li key={i}>{e}<button className='remove' onClick={() => this.handleDelete(i)}>Remove</button></li>
             );
         });
 
         return (
             <div>
+                <FDViewer date = {this.props.date} saved={this.state.saved}/>
+                <hr />
                 <select id="itemsList" value={this.selectedFoodItemName} onChange={this.handleOnChange}>
                     {foodItemOptions}
                 </select>
-                <button onClick={this.addItem}>Add</button>
                 <ul>{bulletedItems}</ul>
                 <input type="textArea" placeholder="Comments" value={this.state.dayComment} onChange={this.handleDayCommentOnChange}></input>
-                <button onClick={this.handleSave}>Save</button>
+                <button className="save" onClick={this.handleSave}>Save</button>
             </div>
         );
     }

@@ -30,3 +30,74 @@
     transform: rotate(360deg);
   }
 }
+
+h3{
+  text-align: center
+}
+
+nav{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.remove{
+  color: red;
+  position: absolute;
+  right: 0px;
+}
+
+.move{
+  color:blue;
+  position: relative;
+  right: 300px;
+}
+
+button:active{
+  color: black
+}
+
+span{
+  font-style: italic;
+}
+
+span::before{
+  content: "*"
+}
+
+ul{
+  list-style-type: disc
+}
+
+nav ul {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+nav button {
+  background: transparent;
+  border: none;
+}
+
+nav li {
+  display: inline-block;
+}
+
+.flex-center{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold
+}
+
+input, button, select {
+  padding: 8px;
+  font-size: 16px;
+  flex: 2;
+  border-radius: 3px;
+  border: none;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15); 
+}
+
+
+

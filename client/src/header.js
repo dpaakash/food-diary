@@ -1,16 +1,34 @@
 import React from 'react';
-import './Header.css';
 
 export class Header extends React.Component {
+    constructor(props){
+        super(props);
+        this.openDatePicker = this.openDatePicker.bind(this);
+    }
     // renders the date and two buttons, 'Prev' and 'Next'
     render() {
         return (
-            <div>
-                <h3>{this.props.date.toDateString()}</h3>
-                <button onClick={this.handleClick} name="prev">Prev</button>
-                <button onClick={this.handleClick} name="next" style={{float:'right'}}>Next</button>
-            </div>
+            <nav className='flex-center'>
+                <ul>
+                    <li>
+                        <button onClick={this.handleClick} name="prev">⏮</button>
+                    </li>
+                    <li>
+                        <h3>{this.props.date.toDateString()}</h3>
+                    </li>
+                    {/* <button onClick={this.openDatePicker}>Calendar</button> */}
+                    <li>
+                        <button onClick={this.handleClick} name="next">⏭</button>
+                    </li>
+                </ul>
+            </nav>
+            
         );
+    }
+
+    openDatePicker(e){
+        const dateInput = <input type='date'></input>;
+        e.target.append(dateInput);
     }
 
     // go to the previous or next day based on the button clicked
