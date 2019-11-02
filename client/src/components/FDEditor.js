@@ -19,17 +19,23 @@ export default class FDEditor extends React.Component {
     }
 
     // update the 'selectedFoodItemName' in the state on dropdown selection
-    handleOnChange(e){
+    handleOnChange(e) {
         // because setState is "async", by the time the function(not applicable when an object is passed) 
         // passed to setState is executed (and the event is accessed), the event is no longer around
-         let selectedValue = e.target.value;
-         this.setState(state=>{
-            return {
-                    selectedFoodItemName: selectedValue,
-                    addedFoodItemsName: [...state.addedFoodItemsName, selectedValue]
-                }    
-         })
-     }
+        let targetInput = e.target;
+        let selectedValue = targetInput.value;
+        let opts = document.querySelector('#itemsList').childNodes;
+        for (let i=0; i<opts.length; i++) {
+            if (opts[i].value === selectedValue) {
+                this.setState(state => {
+                    return {
+                        selectedFoodItemName: selectedValue,
+                        addedFoodItemsName: [...state.addedFoodItemsName, selectedValue]
+                    }
+                }, () => targetInput.value = '') // clear out the selected value after adding to state
+            }
+        }
+    }
 
     // remove from 'addedFoodItemsName' in the 'state' on the click of 'X'(delete) button
     handleDelete = (i) => {
@@ -113,16 +119,15 @@ export default class FDEditor extends React.Component {
         let foodItemOptions = this.state.allFoodItemsName.map((e, i) => { return <option key={i} value={e}>{e}</option> });
         let bulletedItems = this.state.addedFoodItemsName.map((e, i) => {
             return (
-                <li key={i}>{e}<button className='remove' onClick={() => this.handleDelete(i)}>Remove</button></li>
+                <li key={i}>{e}<button className='remove' onClick={() => this.handleDelete(i)}>❌</button></li>
             );
         });
 
         return (
             <div>
                 <hr />
-                <select id="itemsList" value={this.selectedFoodItemName} onChange={this.handleOnChange}>
-                    {foodItemOptions}
-                </select>
+                <input type='text' list="itemsList" placeholder="enter food item" onChange={this.handleOnChange} />
+                <datalist id="itemsList">{foodItemOptions}</datalist>
                 <ul>{bulletedItems}</ul>
                 <textArea placeholder="Comments" value={this.state.dayComment} onChange={this.handleDayCommentOnChange} />
                 <button className="save" onClick={this.handleSave}>Save</button>
