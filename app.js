@@ -49,10 +49,17 @@ async function saveHandler(req,resp){
       const res = await client.query('INSERT INTO public.date_entry(date,comment) VALUES($1,$2) RETURNING date_id', [req.body.date,req.body.dayComment])
       const date_id = res.rows[0].date_id;
       const foodItemsIDs = req.body.foodItemsID;
+      const foodItemsCount = foodItemsIDs.length;
       // TODO make it efficient
-      for(let i=0; i<foodItemsIDs.length; i++){
-        await client.query('INSERT INTO public.food_entries(date_id,item_id) VALUES($1,$2)',[date_id,foodItemsIDs[i]]);
-      }
+      if(foodItemsCount > 0) {
+        for(let i=0; foodItemsCount>0 && i<foodItemsCount; i++){
+          await client.query('INSERT INTO public.food_entries(date_id,item_id) VALUES($1,$2)',[date_id,foodItemsIDs[i]]);
+        }
+      // when only the comment is added
+      } else {
+          await client.query('INSERT INTO public.food_entries(date_id) VALUES($1)',[date_id]);  
+      }  
+      resp.end();
     } catch(e){
       console.error("Error while saving data"+e);
     }
@@ -64,7 +71,7 @@ async function viewHandler(req,resp){
   try{
     //TODO check for a better way to fetch 'comment'
     const response = await client.query(`SELECT public.food_items.item_name, public.date_entry.comment from public.food_entries\
-    JOIN public.food_items ON public.food_entries.item_id = public.food_items.item_id\ 
+    LEFT JOIN public.food_items ON public.food_entries.item_id = public.food_items.item_id\ 
     JOIN public.date_entry ON public.food_entries.date_id = public.date_entry.date_id\
     WHERE date=to_date('${req.query.date}','Dy Mon dd yyyy')`);
     const item_names=[];

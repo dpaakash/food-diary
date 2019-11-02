@@ -1,8 +1,8 @@
 import React from 'react';
-import {Header} from './header';
-import {FDEditor} from './FDEditor';
-import {FDViewer} from './FDViewer';
-import {ItemAdder} from './ItemAdder';
+import Header from './components/Header';
+import {FDEditor} from './components/FDEditor';
+import {FDViewer} from './components/FDViewer';
+import {ItemAdder} from './components/ItemAdder';
 import './App.css';
 
 class App extends React.Component {
