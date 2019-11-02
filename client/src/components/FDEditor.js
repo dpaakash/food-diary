@@ -124,7 +124,7 @@ export default class FDEditor extends React.Component {
                     {foodItemOptions}
                 </select>
                 <ul>{bulletedItems}</ul>
-                <input type="textArea" placeholder="Comments" value={this.state.dayComment} onChange={this.handleDayCommentOnChange}></input>
+                <textArea placeholder="Comments" value={this.state.dayComment} onChange={this.handleDayCommentOnChange} />
                 <button className="save" onClick={this.handleSave}>Save</button>
             </div>
         );
