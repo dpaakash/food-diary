@@ -16,6 +16,11 @@ export class FDEditor extends React.Component {
             // boolean value set to true when save button is clicked
             saved : false
         }
+        document.addEventListener("click", (e) => {
+            if(e.target.id === "adder") {                
+                document.getElementById("itemsList").value = "";
+            }
+        })
         this.handleDayCommentOnChange = this.handleDayCommentOnChange.bind(this);
         this.handleOnChange = this.handleOnChange.bind(this);
     }
