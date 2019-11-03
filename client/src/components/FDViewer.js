@@ -3,7 +3,7 @@ import React from 'react';
 /**
  * Used to view the saved data on a given date
  */
-export class FDViewer extends React.Component {
+export default class FDViewer extends React.Component {
 
     constructor(props) {
         super(props);

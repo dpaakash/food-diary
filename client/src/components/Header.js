@@ -10,14 +10,14 @@ export default class Header extends React.Component {
             <nav className='flex-center'>
                 <ul>
                     <li>
-                        <button onClick={this.handleClick} name="prev">⏮</button>
+                        <button onClick={this.handleClick} name="prev">◀</button>
                     </li>
                     <li>
                         <h3>{this.props.date.toDateString()}</h3>
                     </li>
                     {/* <button onClick={this.openDatePicker}>Calendar</button> */}
                     <li>
-                        <button onClick={this.handleClick} name="next">⏭</button>
+                        <button onClick={this.handleClick} name="next">▶</button>
                     </li>
                 </ul>
             </nav>

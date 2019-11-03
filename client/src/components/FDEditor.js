@@ -1,6 +1,6 @@
 import React from 'react';
 
-export class FDEditor extends React.Component {
+export default class FDEditor extends React.Component {
     constructor(props) {
         super(props);
         this.allFoodItemsNamevsID = new Map();
@@ -13,8 +13,6 @@ export class FDEditor extends React.Component {
             allFoodItemsName: [],
             // any comment that needs to be added for the given day
             dayComment: "",
-            // boolean value set to true when save button is clicked
-            saved : false
         }
         document.addEventListener("click", (e) => {
             if(e.target.id === "adder") {                
@@ -67,8 +65,8 @@ export class FDEditor extends React.Component {
             this.setState({
                 addedFoodItemsName: [],
                 dayComment: "",
-                saved: true
-            });
+            }); 
+            this.props.setSaved(true);
         }).catch(error => console.log("Error occured during save: " + error));
     }
 
@@ -82,9 +80,7 @@ export class FDEditor extends React.Component {
         if(prevProps.date !== this.props.date)
             // set 'state' to 'false' so that FDViewer's CDU method executes when
             // entries are added for two days with out reloading in between
-            this.setState({
-                saved: false
-            })
+            this.props.setSaved(false)
     }
 
     componentDidMount() {
@@ -128,13 +124,12 @@ export class FDEditor extends React.Component {
 
         return (
             <div>
-                {/* <FDViewer date = {this.props.date} saved={this.state.saved}/> */}
                 <hr />
                 <select id="itemsList" value={this.selectedFoodItemName} onChange={this.handleOnChange}>
                     {foodItemOptions}
                 </select>
                 <ul>{bulletedItems}</ul>
-                <input type="textArea" placeholder="Comments" value={this.state.dayComment} onChange={this.handleDayCommentOnChange}></input>
+                <textArea placeholder="Comments" value={this.state.dayComment} onChange={this.handleDayCommentOnChange} />
                 <button className="save" onClick={this.handleSave}>Save</button>
             </div>
         );
