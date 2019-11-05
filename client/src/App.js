@@ -21,7 +21,7 @@ class App extends React.Component {
       <div>
           <Header date={this.state.date} setDate={this.setDate} />
           <FDViewer date={this.state.date} saved={this.state.saved} />
-          <FDEditor date={this.state.date} setSaved={this.setSaved} />
+          <FDEditor date={this.state.date} setSaved={this.setSaved} saved={this.state.saved} />
           <ItemAdder />
       </div>
     );

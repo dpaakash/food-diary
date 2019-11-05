@@ -78,7 +78,7 @@ export default class FDEditor extends React.Component {
     }
 
     componentDidUpdate(prevProps){
-        if(prevProps.date !== this.props.date)
+        if(prevProps.date !== this.props.date || this.props.saved === true)
             // set 'state' to 'false' so that FDViewer's CDU method executes when
             // entries are added for two days with out reloading in between
             this.props.setSaved(false)
@@ -129,7 +129,7 @@ export default class FDEditor extends React.Component {
                 <input type='text' list="itemsList" placeholder="enter food item" onChange={this.handleOnChange} />
                 <datalist id="itemsList">{foodItemOptions}</datalist>
                 <ul>{bulletedItems}</ul>
-                <textArea placeholder="Comments" value={this.state.dayComment} onChange={this.handleDayCommentOnChange} />
+                <textarea placeholder="Comments" value={this.state.dayComment} onChange={this.handleDayCommentOnChange} />
                 <button className="save" onClick={this.handleSave}>Save</button>
             </div>
         );
