@@ -1,4 +1,8 @@
-# food-diary
+# Food Diary
+Web app to keep a log of the consumed food items on a daily basis
+
+## Prerequisites
+React 16.8.0+
 
 ## Usage
 ````
