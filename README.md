@@ -6,7 +6,6 @@ React 16.8.0+
 
 ## Usage
 ````
-npm install
 npm run server
 npm run client
 ````
