@@ -7,7 +7,8 @@ React 16.8.0+
 ## Usage
 ````
 npm install
-npm start
+npm run server
+npm run client
 ````
 Open http://localhost:3000
 
