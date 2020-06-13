@@ -7,16 +7,20 @@ const LoginPage = ({ setAuthorized }) => {
 
     return (
         <React.Fragment>
-            <input 
-                placeholder = 'Password' 
-                value = {password} 
-                onChange = {(e) => setPassword(e.target.value)} 
-            />
-            <button
-                onClick = {() => verifyPassword(password, setAuthorized)}
-            >
-                Submit
-            </button>
+            <form>
+                <input 
+                    placeholder = 'Password' 
+                    type='password'
+                    value = {password} 
+                    onChange = {(e) => setPassword(e.target.value)} 
+                    autoFocus
+                />
+                <button
+                    onClick = {() => verifyPassword(password, setAuthorized)}
+                >
+                    Submit
+                </button>
+            </form>   
         </React.Fragment>
     )
 }
