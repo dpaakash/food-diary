@@ -1,7 +1,5 @@
 import React from 'react';
 
-const PASS = '2511';
-
 const LoginPage = ({ setAuthorized }) => {
     const [password, setPassword] = React.useState('');
 
@@ -25,9 +23,27 @@ const LoginPage = ({ setAuthorized }) => {
     )
 }
 
-const verifyPassword = (password, setAuthorized) => {
-    if(password === PASS)
-        setAuthorized(true);
+const verifyPassword = async (password, setAuthorized) => {
+    // fetch('/login', {
+    //     method: 'POST',
+    //     headers: { 'Content-Type': 'application/json' },
+    //     body: JSON.stringify({ password })
+    // })
+    // .then(response => response.json())
+    // .then(data => setAuthorized(JSON.parse(data).isAuthenticated))
+    // .catch(console.log('error in authorizing the user'));
+    try {
+        const response = await fetch('/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ password })
+        });
+        const data = await response.json();
+        setAuthorized(data.isAuthenticated);
+    } catch (e) {
+        console.log('error in authorizing the user', e);
+    }
+    
 }
 
 export default LoginPage;
