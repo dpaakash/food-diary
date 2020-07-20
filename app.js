@@ -98,6 +98,12 @@ async function addHandler(req,resp){
   resp.end();
 }
 
+function loginHandler(req, resp) {
+  const isAuthenticated = process.env.PASS === req.body.password;
+  resp.write(JSON.stringify({ isAuthenticated }));
+  resp.end();
+}
+
 // listen on port 1337 by default
 let port = process.env.PORT;
 if (port == null || port == "") {
@@ -111,6 +117,7 @@ app.get('/index',defaultHandler);
 app.post('/save', saveHandler);
 app.get('/view',viewHandler);
 app.post('/add',addHandler);
+app.post('/login', loginHandler);
 
 
 
