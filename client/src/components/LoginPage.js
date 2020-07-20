@@ -5,7 +5,7 @@ const LoginPage = ({ setAuthorized }) => {
 
     return (
         <React.Fragment>
-            <form>
+            <form onSubmit={(e) => { e.preventDefault(); verifyPassword(password, setAuthorized) }}>
                 <input 
                     placeholder = 'Password' 
                     type='password'
@@ -13,25 +13,13 @@ const LoginPage = ({ setAuthorized }) => {
                     onChange = {(e) => setPassword(e.target.value)} 
                     autoFocus
                 />
-                <button
-                    onClick = {() => verifyPassword(password, setAuthorized)}
-                >
-                    Submit
-                </button>
+                <button>Submit</button>
             </form>   
         </React.Fragment>
     )
 }
 
 const verifyPassword = async (password, setAuthorized) => {
-    // fetch('/login', {
-    //     method: 'POST',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify({ password })
-    // })
-    // .then(response => response.json())
-    // .then(data => setAuthorized(JSON.parse(data).isAuthenticated))
-    // .catch(console.log('error in authorizing the user'));
     try {
         const response = await fetch('/login', {
             method: 'POST',
@@ -40,10 +28,12 @@ const verifyPassword = async (password, setAuthorized) => {
         });
         const data = await response.json();
         setAuthorized(data.isAuthenticated);
+        
+        if(!data.isAuthenticated) 
+            alert('Incorrect Password!')
     } catch (e) {
-        console.log('error in authorizing the user', e);
-    }
-    
+        console.error('Error authenticating the user', e);
+    }  
 }
 
 export default LoginPage;
