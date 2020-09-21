@@ -47,11 +47,7 @@ function defaultHandler(req, resp) {
 async function saveHandler(req,resp){
     try{
       // WHERE EXCLUDED.comment <> \'\'
-<<<<<<< HEAD
       const res = await client.query('INSERT INTO public.date_entry(date,comment,status) VALUES($1,$2,$3) ON CONFLICT(date) DO UPDATE SET comment = public.date_entry.comment || \' \' || EXCLUDED.comment, status = EXCLUDED.status RETURNING date_id', [req.body.date,req.body.dayComment,req.body.dayStatus])
-=======
-      const res = await client.query('INSERT INTO public.date_entry(date,comment,status) VALUES($1,$2,$3) ON CONFLICT(date) DO UPDATE SET comment = public.date_entry.comment || \' \' || EXCLUDED.comment RETURNING date_id', [req.body.date,req.body.dayComment,req.body.dayStatus])
->>>>>>> 10d40aa5ed9fb15a9487fdc56c84d100d9db3b63
       const date_id = res.rows[0].date_id;
       const foodItemsIDs = req.body.foodItemsID;
       const foodItemsCount = foodItemsIDs.length;
