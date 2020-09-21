@@ -11,6 +11,7 @@ export default class FDViewer extends React.Component {
         this.state = {
             bulletedItems: [],
             dayComment: "",
+            dayStatus: "",
         };
     }
 
@@ -38,7 +39,8 @@ export default class FDViewer extends React.Component {
                 bulletedItems: this.savedFoodItemNames.map((e, i) => {
                     return <li key={i}>{e}</li>;
                 }),
-                dayComment: responseObj.dayComment
+                dayComment: responseObj.dayComment,
+                dayStatus: responseObj.dayStatus,
             });
         }).catch((e) => console.log(e));
     }
@@ -64,6 +66,9 @@ export default class FDViewer extends React.Component {
                 {this.state.bulletedItems.length > 0 ? <ul>{this.state.bulletedItems}</ul> : <span>No entries saved</span>}
                 <br />
                 {this.state.dayComment==="" ? <span>No comment added</span> :this.state.dayComment}
+                <p>
+                    {this.state.dayStatus}
+                </p>
             </div>
         )
     }

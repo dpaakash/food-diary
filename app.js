@@ -47,7 +47,7 @@ function defaultHandler(req, resp) {
 async function saveHandler(req,resp){
     try{
       // WHERE EXCLUDED.comment <> \'\'
-      const res = await client.query('INSERT INTO public.date_entry(date,comment) VALUES($1,$2) ON CONFLICT(date) DO UPDATE SET comment = public.date_entry.comment || \' \' || EXCLUDED.comment RETURNING date_id', [req.body.date,req.body.dayComment])
+      const res = await client.query('INSERT INTO public.date_entry(date,comment,status) VALUES($1,$2,$3) ON CONFLICT(date) DO UPDATE SET comment = public.date_entry.comment || \' \' || EXCLUDED.comment, status = EXCLUDED.status RETURNING date_id', [req.body.date,req.body.dayComment,req.body.dayStatus])
       const date_id = res.rows[0].date_id;
       const foodItemsIDs = req.body.foodItemsID;
       const foodItemsCount = foodItemsIDs.length;
@@ -71,7 +71,7 @@ async function saveHandler(req,resp){
 async function viewHandler(req,resp){
   try{
     //TODO check for a better way to fetch 'comment'
-    const response = await client.query(`SELECT public.food_items.item_name, public.date_entry.comment from public.food_entries\
+    const response = await client.query(`SELECT public.food_items.item_name, public.date_entry.comment, public.date_entry.status from public.food_entries\
     LEFT JOIN public.food_items ON public.food_entries.item_id = public.food_items.item_id\ 
     JOIN public.date_entry ON public.food_entries.date_id = public.date_entry.date_id\
     WHERE date=to_date('${req.query.date}','Dy Mon dd yyyy')`);
@@ -80,8 +80,9 @@ async function viewHandler(req,resp){
     for(let row of response.rows){
       item_names.push(row.item_name);
       dayComment = row.comment;
+      dayStatus = row.status;
     }
-    resp.write(JSON.stringify({item_names, dayComment}));
+    resp.write(JSON.stringify({item_names, dayComment, dayStatus}));
     resp.end();
   }catch(e){
     console.error("Error while fetching saved item names from DB "+e);
