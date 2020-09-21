@@ -13,6 +13,7 @@ export default class FDEditor extends React.Component {
             allFoodItemsName: [],
             // any comment that needs to be added for the given day
             dayComment: "",
+            dayStatus: "",
         }
         this.handleDayCommentOnChange = this.handleDayCommentOnChange.bind(this);
         this.handleOnChange = this.handleOnChange.bind(this);
@@ -54,7 +55,8 @@ export default class FDEditor extends React.Component {
             foodItemsName: this.state.addedFoodItemsName,
             foodItemsID: addedItemsID,
             date: this.props.date,
-            dayComment: this.state.dayComment
+            dayComment: this.state.dayComment,
+            dayStatus: this.state.dayStatus,
         };
         fetch(`/save`, {
             method: 'POST',
@@ -66,15 +68,24 @@ export default class FDEditor extends React.Component {
             this.setState({
                 addedFoodItemsName: [],
                 dayComment: "",
+                dayStatus: "",
             }); 
             this.props.setSaved(true);
-        }).catch(error => console.log("Error occured during save: " + error));
+        }).catch(error => {
+            console.log("Error occured during save: " + error);
+        });
     }
 
     handleDayCommentOnChange(e){
         this.setState({
             dayComment: e.target.value  
         })
+    }
+
+    handleStatusChange = (e) => {
+        this.setState({
+            dayStatus: e.target.value,
+        });
     }
 
     componentDidUpdate(prevProps){
@@ -119,7 +130,7 @@ export default class FDEditor extends React.Component {
         let foodItemOptions = this.state.allFoodItemsName.map((e, i) => { return <option key={i} value={e}>{e}</option> });
         let bulletedItems = this.state.addedFoodItemsName.map((e, i) => {
             return (
-                <li key={i}>{e}<button className='remove' onClick={() => this.handleDelete(i)}>❌</button></li>
+                <li key={i}>{e}<button className='remove' onClick={() => this.handleDelete(i)}>X</button></li>
             );
         });
 
@@ -131,6 +142,14 @@ export default class FDEditor extends React.Component {
                 <ul>{bulletedItems}</ul>
                 <textarea placeholder="Comments" value={this.state.dayComment} onChange={this.handleDayCommentOnChange} />
                 <button className="save" onClick={this.handleSave}>Save</button>
+                <div className="status">
+                    <input type="radio" id="red" name="status" value="RED" onChange={this.handleStatusChange} />
+                    <label for="red">RED</label>
+                    <input type="radio" id="orange" name="status" value="ORANGE" onChange={this.handleStatusChange} />
+                    <label for="orange">ORANGE</label>
+                    <input type="radio" id="green" name="status" value="GREEN" onChange={this.handleStatusChange} />
+                    <label for="green">GREEN</label>
+                </div>
             </div>
         );
     }
