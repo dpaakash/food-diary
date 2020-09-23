@@ -77,6 +77,7 @@ async function viewHandler(req,resp){
     WHERE date=to_date('${req.query.date}','Dy Mon dd yyyy')`);
     const item_names=[];
     let dayComment = "";
+    let dayStatus = "";
     for(let row of response.rows){
       item_names.push(row.item_name);
       dayComment = row.comment;
