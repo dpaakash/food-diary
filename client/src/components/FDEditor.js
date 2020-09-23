@@ -147,7 +147,7 @@ export default class FDEditor extends React.Component {
                     <label for="red">RED</label>
                     <input type="radio" id="orange" name="status" value="ORANGE" onChange={this.handleStatusChange} />
                     <label for="orange">ORANGE</label>
-                    <input type="radio" id="green" name="status" value="GREEN" onChange={this.handleStatusChange} checked />
+                    <input type="radio" id="green" name="status" value="GREEN" onChange={this.handleStatusChange} />
                     <label for="green">GREEN</label>
                 </div>
             </div>
